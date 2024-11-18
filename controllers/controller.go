@@ -57,7 +57,7 @@ func SignUp() gin.HandlerFunc {
 			return
 		}
 
-		count, err := UserCollection.CountDocuments(ctx, bson.M{"email": user.Email})
+		count, err := UserCollection.CountDocuments(ctx, bson.M{"email": user.Email}) // the count or occurance of this email
 		if err != nil {
 			log.Panic(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
