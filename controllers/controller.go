@@ -47,7 +47,7 @@ func SignUp() gin.HandlerFunc {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
 		var user models.User
-		if err := c.BindJSON(&user); err != nil {
+		if err := c.BindJSON(&user); err != nil { // binds the json to struct
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
@@ -58,6 +58,7 @@ func SignUp() gin.HandlerFunc {
 		}
 
 		count, err := UserCollection.CountDocuments(ctx, bson.M{"email": user.Email}) // the count or occurance of this email
+		// bson.M{} - mongo query
 		if err != nil {
 			log.Panic(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
