@@ -88,7 +88,7 @@ func SignUp() gin.HandlerFunc {
 		token, refreshtoken, _ := generate.TokenGenerator(*user.Email, *user.First_Name, *user.Last_Name, user.User_ID)
 		user.Token = &token
 		user.Refresh_Token = &refreshtoken
-		user.UserCart = make([]models.ProductUser, 0)
+		user.UserCart = make([]models.ProductUser, 0) // creates a new empty slice
 		user.Address_Details = make([]models.Address, 0)
 		user.Order_Status = make([]models.Order, 0)
 		_, inserterr := UserCollection.InsertOne(ctx, user)
@@ -117,7 +117,7 @@ func Login() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "login or password incorrect"})
 			return
 		}
-		PasswordIsValid, msg := VerifyPassword(*user.Password, *founduser.Password)
+		PasswordIsValid, msg := VerifyPassword(*user.Password, *founduser.Password) // is provided passwoed same as the saved passwoed
 		defer cancel()
 		if !PasswordIsValid {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
