@@ -47,7 +47,8 @@ func SignUp() gin.HandlerFunc {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
 		var user models.User
-		if err := c.BindJSON(&user); err != nil { // binds the json to struct
+		if err := c.BindJSON(&user); err != nil { 
+			// Bindjson- reads the JSON data from the request body, parses it, and populates the fields of the provided struct based on the JSON field names and struct tags.
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
