@@ -11,23 +11,23 @@ import (
 )
 
 func DBSet() *mongo.Client {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
-	if err != nil {
-		log.Fatal(err)
-	}
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	err = client.Connect(ctx)
+	client, err := mongo.Connect(ctx,options.Client().ApplyURI("mongodb://localhost:27017")) // add credential to the url to connect to your database.
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Failed to create MongoDB client: %v", err)
 	}
 
-	err = client.Ping(context.TODO(), nil)
+	// Verify the connection by pinging the server
+	err = client.Ping(ctx, nil)
 	if err != nil {
-		log.Println("failed to connect to mongodb")
-		return nil
+		log.Fatalf("Failed to ping MongoDB: %v", err)
 	}
-	fmt.Println("Successfully Connected to the mongodb")
+
+	// Connection was successful
+	fmt.Println("Successfully connected to MongoDB!")
+
+	// Close the client once we're done
+	defer cancel()
 	return client
 }
 
