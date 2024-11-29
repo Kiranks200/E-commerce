@@ -12,7 +12,7 @@ import (
 
 func DBSet() *mongo.Client {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	client, err := mongo.Connect(ctx,options.Client().ApplyURI("mongodb://localhost:27017")) // add credential to the url to connect to your database.
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017")) // add credential to the url to connect to your database.
 	if err != nil {
 		log.Fatalf("Failed to create MongoDB client: %v", err)
 	}
@@ -31,7 +31,7 @@ func DBSet() *mongo.Client {
 	return client
 }
 
-var Client *mongo.Client = DBSet()
+var Client *mongo.Client = DBSet() //get client setup
 
 func UserData(client *mongo.Client, CollectionName string) *mongo.Collection {
 	var collection *mongo.Collection = client.Database("Ecommerce").Collection(CollectionName)
